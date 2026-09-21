@@ -6,7 +6,11 @@ export default {
     runes: true
   },
   kit: {
-    adapter: adapter(),
+    adapter: adapter({
+      pages: 'dist',
+      assets: 'dist',
+      fallback: '404.html'
+    }),
     paths: {
       base: '/svgBuilder'
     },
