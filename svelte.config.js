@@ -1,16 +1,14 @@
 import adapter from '@sveltejs/adapter-static';
 
-const dev = process.argv.includes('dev');
-
 export default {
+  compilerOptions: {
+    // Force runes mode for the project, except for libraries. Can be removed in Svelte 6.
+    runes: true
+  },
   kit: {
-    adapter: adapter({
-      pages: 'dist',
-      assets: 'dist',
-      fallback: '404.html'
-    }),
+    adapter: adapter(),
     paths: {
-      base: dev ? '' : process.env.BASE_PATH || '/svgBuilder'
+      base: '/svgBuilder'
     },
     prerender: {
       handleHttpError: 'warn'
