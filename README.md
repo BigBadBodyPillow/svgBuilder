@@ -1,42 +1,28 @@
-# sv
+# SVG BUILDER
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## Vision
 
-## Creating a project
+![Concept Image](Plan\Untitled.png)
 
-If you're seeing this, you've probably already done this step. Congrats!
+- A canvas area
+  - Can draw the lines in the canvas
+  - Select previous lines and highlight the selected one in the lines pane
 
-```sh
-# create a new project
-npx sv create my-app
-```
+- A list of all the lines on the right
+  - each line would show the
+    - Type (L,Q,A,Z,...)
+    - Control Points?
+    - End X,Y
 
-To recreate this project with the same configuration:
+not in the image but i thought of now and dont want to edit it
 
-```sh
-# recreate this project
-npx sv@0.17.1 create --template minimal --types ts --add prettier eslint --install npm .
-```
+- inputs for
+  - Viewbox
+  - Fill
+  - Stroke
+  - stroke width
+  - ...
 
-## Developing
+- Hovering over stuff shows tooltops and information; for example hovering over Q Shows the parameters like x1 y1 x y
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Knowlage from my svg project and the paint app project
