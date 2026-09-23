@@ -88,14 +88,67 @@
   .toolbar {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    /* gap: 1rem; */
 
     height: 60px;
 
-    padding: 0.76rem;
+    padding: 0.75rem;
     padding-inline: 5rem;
 
     background-color: var(--background2);
     border: var(--border);
+
+    isolation: isolate;
+    anchor-name: --hovered-tool;
+  }
+
+  .toolbar::before,
+  .toolbar::after {
+    content: '';
+    position-anchor: --hovered-tool;
+    position: absolute;
+    top: calc(anchor(top) - 10px);
+    left: anchor(left);
+    right: anchor(right);
+    bottom: anchor(top);
+
+    transition: var(--transition-duration)
+      linear(
+        0,
+        0.029 1.6%,
+        0.123 3.5%,
+        0.651 10.6%,
+        0.862 14.1%,
+        1.002 17.7%,
+        1.046 19.6%,
+        1.074 21.6%,
+        1.087 23.9%,
+        1.086 26.6%,
+        1.014 38.5%,
+        0.994 46.3%,
+        1
+      );
+  }
+
+  .toolbar::before {
+    z-index: -1;
+  }
+  .toolbar::after {
+    z-index: -2;
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-attachment: fixed;
+  }
+
+  .toolbar:has(:global(.tool):hover)::before,
+  .toolbar:has(:global(.tool):hover)::after {
+    top: anchor(top);
+    left: anchor(left);
+    right: anchor(right);
+    bottom: anchor(bottom);
+
+    @supports (corner-shape: squircle) {
+      corner-shape: squircle;
+      border-radius: 50%;
+    }
   }
 </style>

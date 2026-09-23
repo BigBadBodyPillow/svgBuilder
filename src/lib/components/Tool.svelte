@@ -29,7 +29,7 @@
     hoverTimeout = undefined;
     hideTimeout = setTimeout(() => {
       tooltipVisible = false;
-    }, 300);
+    }, 500);
   }
 
   function keepTooltipOpen() {
@@ -60,7 +60,6 @@
   }
 
   .tool {
-    --tool-background: linear-gradient(rgb(27, 27, 27), rgb(27, 27, 27));
     position: relative;
     overflow: hidden;
 
@@ -73,45 +72,32 @@
 
     border-radius: var(--radius);
     font-family: var(--font-space-grotesk);
-    background: var(--tool-background);
-    border: 1px solid var(--border);
+    border: none;
     cursor: pointer;
+
+    @supports (corner-shape: squircle) {
+      corner-shape: squircle;
+      border-radius: 50%;
+    }
+
+    transition:
+      color var(--transition-duration),
+      background-color var(--transition-duration);
   }
 
-  /* background hover */
-  .tool::before {
-    --tool-background: linear-gradient(rgb(40, 40, 40), rgb(27, 27, 27));
-    content: '';
-    position: absolute;
-    inset: 0;
-
-    background: var(--tool-background);
-    opacity: 0;
-
-    transition: opacity 0.2s ease;
+  .tool:hover {
+    anchor-name: --hovered-tool;
   }
 
-  .tool:hover::before {
-    opacity: 1;
-  }
+  .tool.active {
+    color: var(--text-invert);
+    background-color: white;
+    opacity: 0.5;
 
-  /* background active */
-  .tool::after {
-    content: '';
-    position: absolute;
-    inset: 0;
+    transition: opacity 10s ease;
 
-    background: linear-gradient(rgb(255, 25, 56), rgb(190, 15, 40));
-    opacity: 0;
-
-    transition: opacity 0.2s ease;
-  }
-
-  .tool.active::after {
-    opacity: 1;
-  }
-
-  .content {
-    z-index: 1; /* above background pseudos */
+    @starting-style {
+      opacity: 1;
+    }
   }
 </style>

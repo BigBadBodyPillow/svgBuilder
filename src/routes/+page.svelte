@@ -10,6 +10,8 @@
   :root {
     --background2: hsl(from var(--background) h s calc(l + 2));
     --border: hsl(from var(--background) h s calc(l + 10));
+
+    --transition-duration: 0.5s;
   }
 
   :global(button) {
