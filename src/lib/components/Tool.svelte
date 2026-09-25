@@ -57,6 +57,10 @@
   .tool-wrapper {
     position: relative;
     height: 100%;
+
+    /* @supports not (corner-shape: squircle) {
+      border-radius: var(--radius);
+    } */
   }
 
   .tool {
@@ -74,6 +78,10 @@
     font-family: var(--font-space-grotesk);
     border: none;
     cursor: pointer;
+
+    @supports not (corner-shape: squircle) {
+      border-radius: var(--radius);
+    }
 
     @supports (corner-shape: squircle) {
       corner-shape: squircle;

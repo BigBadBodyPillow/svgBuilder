@@ -90,7 +90,7 @@
     align-items: center;
     /* gap: 1rem; */
 
-    height: 60px;
+    height: var(--toolbar-height);
 
     padding: 0.75rem;
     padding-inline: 5rem;
@@ -137,6 +137,10 @@
     z-index: -2;
     background-image: linear-gradient(var(--accent), var(--accent));
     background-attachment: fixed;
+
+    @supports not (corner-shape: squircle) {
+      border-radius: var(--radius);
+    }
   }
 
   .toolbar:has(:global(.tool):hover)::before,
