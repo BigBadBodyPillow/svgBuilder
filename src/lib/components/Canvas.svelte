@@ -5,24 +5,31 @@
 
 <style>
   .canvas {
-    /* display: flex;
+    display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: end;
-    gap: 10px; */
+    gap: 5px;
 
     max-width: calc(100% - var(--line-list-width));
     height: 100%;
     max-height: 700px;
     max-width: 700px;
     aspect-ratio: 1/1;
+
+    margin: auto;
+  }
+
+  .board {
+    border-radius: var(--radius);
+    aspect-ratio: 1/1;
+    flex: 1;
     background-color: antiquewhite;
   }
 
   .dimensions {
-    color: red;
+    text-align: end;
+
     font-family: var(--font-roboto-mono);
     font-size: var(--font-10);
-    opacity: 0.6;
+    color: hsl(from var(--text) h s l / 0.6);
   }
 </style>

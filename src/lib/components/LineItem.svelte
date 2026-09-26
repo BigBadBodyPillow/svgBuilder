@@ -1,49 +1,61 @@
-<div class="line-item">
-  <div class="line">
-    <div class="line-type"><p>L</p></div>
+<li class="line-item">
+  <span class="number">1</span>
+  <div class="content-wrapper">
+    <div class="line">
+      <div class="line-type"><p>L</p></div>
 
-    <div class="radius-x field">
-      2
-      <span>rx</span>
+      <div class="radius-x field">
+        2
+        <span>rx</span>
+      </div>
+
+      <div class="radius-y field">
+        2
+        <span>ry</span>
+      </div>
+
+      <div class="rotation field">
+        90
+        <span>deg</span>
+      </div>
+
+      <div class="arc field">0</div>
+      <div class="sweep field">1</div>
+      <div class="x field">
+        10
+        <span>x</span>
+      </div>
+
+      <div class="y field">
+        10
+        <span>y</span>
+      </div>
     </div>
 
-    <div class="radius-y field">
-      2
-      <span>ry</span>
-    </div>
-
-    <div class="rotation field">
-      90
-      <span>deg</span>
-    </div>
-
-    <div class="arc field">0</div>
-    <div class="sweep field">1</div>
-    <div class="x field">
-      10
-      <span>x</span>
-    </div>
-
-    <div class="y field">
-      10
-      <span>y</span>
-    </div>
+    <p class="name">Top Line</p>
   </div>
-
-  <p class="name">Top Lineeeeeeeeeeeeeeeeee</p>
-</div>
+</li>
 
 <style>
   .line-item {
     display: flex;
-    justify-content: space-between;
-    /* gap: 10px; */
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
 
-    /* height: 90px; */
+  .number {
+    display: grid;
+    place-items: center;
+  }
+
+  .content-wrapper {
+    display: flex;
+    justify-content: space-between;
 
     padding: 0.5rem;
     background-color: rgb(30, 30, 30);
-    border: 1px solid rgb(80, 80, 80);
+    border: 1px solid rgb(56, 56, 56);
     border-radius: var(--radius);
 
     font-size: var(--font-12);
@@ -60,6 +72,10 @@
     gap: 10px;
     align-items: center;
     flex: 1;
+  }
+
+  .line-type {
+    color: hsl(from var(--text) h s l / 0.3);
   }
 
   .field {
@@ -81,6 +97,7 @@
     width: 100%;
     max-width: 100px;
 
+    color: hsl(from var(--text) h s l / 0.3);
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -89,7 +106,7 @@
 
     &::before {
       content: '| ';
-      opacity: 0.3;
+      color: hsl(from var(--text) h s l / 0.7);
     }
   }
 </style>
