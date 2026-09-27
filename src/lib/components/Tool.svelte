@@ -57,10 +57,6 @@
   .tool-wrapper {
     position: relative;
     height: 100%;
-
-    /* @supports not (corner-shape: squircle) {
-      border-radius: var(--radius);
-    } */
   }
 
   .tool {
@@ -88,24 +84,26 @@
       border-radius: 50%;
     }
 
-    transition:
-      color var(--transition-duration),
-      background-color var(--transition-duration);
+    transition: color var(--transition-duration);
   }
 
   .tool:hover {
     anchor-name: --hovered-tool;
   }
 
-  .tool.active {
+  .active {
     color: var(--text-invert);
-    background-color: white;
-    opacity: 0.5;
+    background-color: rgba(255, 255, 255, 0.5);
 
-    transition: opacity 10s ease;
+    animation: active-background 10s ease both;
+  }
 
-    @starting-style {
-      opacity: 1;
+  @keyframes active-background {
+    from {
+      background-color: white;
+    }
+    to {
+      background-color: rgba(255, 255, 255, 0.5);
     }
   }
 </style>

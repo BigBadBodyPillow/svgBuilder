@@ -1,38 +1,82 @@
+<script lang="ts">
+  import type { PathLine } from '../Types';
+
+  interface Props {
+    index: number;
+    line: PathLine;
+  }
+
+  let { index, line }: Props = $props();
+
+  const fields = $derived.by(() => {
+    switch (line.lineType) {
+      case 'L':
+        return [
+          { value: line.x, label: 'x' },
+          { value: line.y, label: 'y' }
+        ];
+      case 'H':
+        return [{ value: line.x, label: 'x' }];
+      case 'V':
+        return [{ value: line.y, label: 'y' }];
+      case 'A':
+        return [
+          { value: line.rx, label: 'rx' },
+          { value: line.ry, label: 'ry' },
+          { value: line.xRotation, label: 'deg' },
+          { value: line.arc, label: undefined },
+          { value: line.sweep, label: undefined },
+          { value: line.x, label: 'x' },
+          { value: line.y, label: 'y' }
+        ];
+      case 'Q':
+        return [
+          { value: line.x1, label: 'x1' },
+          { value: line.y1, label: 'y1' },
+          { value: line.x, label: 'x' },
+          { value: line.y, label: 'y' }
+        ];
+      case 'T':
+        return [
+          { value: line.x, label: 'x' },
+          { value: line.y, label: 'y' }
+        ];
+      case 'C':
+        return [
+          { value: line.x1, label: 'x1' },
+          { value: line.y1, label: 'y1' },
+          { value: line.x2, label: 'x2' },
+          { value: line.y2, label: 'y2' },
+          { value: line.x, label: 'x' },
+          { value: line.y, label: 'y' }
+        ];
+      case 'S':
+        return [
+          { value: line.x2, label: 'x2' },
+          { value: line.y2, label: 'y2' },
+          { value: line.x, label: 'x' },
+          { value: line.y, label: 'y' }
+        ];
+    }
+  });
+</script>
+
 <li class="line-item">
-  <span class="number">1</span>
+  <span class="number">{index + 1}</span>
+
   <div class="content-wrapper">
     <div class="line">
-      <div class="line-type"><p>L</p></div>
+      <div class="line-type"><p>{line.lineType}</p></div>
 
-      <div class="radius-x field">
-        2
-        <span>rx</span>
-      </div>
-
-      <div class="radius-y field">
-        2
-        <span>ry</span>
-      </div>
-
-      <div class="rotation field">
-        90
-        <span>deg</span>
-      </div>
-
-      <div class="arc field">0</div>
-      <div class="sweep field">1</div>
-      <div class="x field">
-        10
-        <span>x</span>
-      </div>
-
-      <div class="y field">
-        10
-        <span>y</span>
-      </div>
+      {#each fields as field, fieldIndex (fieldIndex)}
+        <div class="field">
+          <p>{field.value}</p>
+          <span class="field-label">{field.label}</span>
+        </div>
+      {/each}
     </div>
 
-    <p class="name">Top Line</p>
+    <p class="name">{line.name}</p>
   </div>
 </li>
 
@@ -53,6 +97,8 @@
     display: flex;
     justify-content: space-between;
 
+    width: 100%;
+
     padding: 0.5rem;
     background-color: rgb(30, 30, 30);
     border: 1px solid rgb(56, 56, 56);
@@ -61,6 +107,7 @@
     font-size: var(--font-12);
     font-family: var(--font-roboto-mono);
   }
+
   .line,
   .name {
     padding: 0.3rem;
@@ -94,8 +141,8 @@
   .name {
     border-radius: var(--radius);
 
-    width: 100%;
-    max-width: 100px;
+    width: fit-content;
+    max-width: 6.5em;
 
     color: hsl(from var(--text) h s l / 0.3);
     text-overflow: ellipsis;

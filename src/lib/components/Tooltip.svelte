@@ -11,13 +11,16 @@
 <div class="tooltip" role="group" onmouseenter={onEnter}>
   <div class="top-line">
     <p class="name">{name}</p>
+
     <div class="syntax-menu">
       <span class="syntax">{title} {syntax}</span>
+
       {#if syntaxDescription}
         <span class="syntax-description">{syntaxDescription}</span>
       {/if}
     </div>
   </div>
+
   <p class="description">{description}</p>
 </div>
 

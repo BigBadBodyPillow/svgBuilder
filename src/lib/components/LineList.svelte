@@ -1,38 +1,41 @@
-<script>
+<script lang="ts">
+  import type { PathLine } from '../Types';
   import LineItem from './LineItem.svelte';
+
+  const lines: PathLine[] = [
+    {
+      name: 'Top Line',
+      lineType: 'L',
+      x: 0,
+      y: 0
+    },
+    {
+      name: 'Top Line',
+      lineType: 'L',
+      x: 10,
+      y: 3
+    },
+    {
+      name: 'Top Lineeee',
+      lineType: 'A',
+      rx: 2,
+      ry: 2,
+      xRotation: 90,
+      arc: 0,
+      sweep: 1,
+      x: 10,
+      y: 10
+    }
+  ];
 </script>
 
 <div class="line-list">
   <p class="title">LINES</p>
 
   <ul>
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
-    <LineItem />
+    {#each lines as line, index (index)}
+      <LineItem {index} {line} />
+    {/each}
   </ul>
 </div>
 
@@ -79,7 +82,7 @@
     flex: 1;
     min-height: 0;
     gap: 12px;
-    padding-inline: 2rem;
+    padding-inline: 1rem;
     overflow-y: auto;
 
     @supports (scrollbar-width: auto) {
