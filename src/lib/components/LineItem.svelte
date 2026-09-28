@@ -10,6 +10,11 @@
 
   const fields = $derived.by(() => {
     switch (line.lineType) {
+      case 'M':
+        return [
+          { value: line.x, label: 'x' },
+          { value: line.y, label: 'y' }
+        ];
       case 'L':
         return [
           { value: line.x, label: 'x' },
@@ -57,6 +62,8 @@
           { value: line.x, label: 'x' },
           { value: line.y, label: 'y' }
         ];
+      case 'Z':
+        return;
     }
   });
 </script>
@@ -76,7 +83,9 @@
       {/each}
     </div>
 
-    <p class="name">{line.name}</p>
+    {#if 'name' in line}
+      <p class="name">{line.name}</p>
+    {/if}
   </div>
 </li>
 
@@ -154,6 +163,11 @@
     &::before {
       content: '| ';
       color: hsl(from var(--text) h s l / 0.7);
+    }
+
+    /* hide if empty */
+    &:empty::before {
+      content: '';
     }
   }
 </style>

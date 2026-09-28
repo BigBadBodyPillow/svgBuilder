@@ -7,6 +7,7 @@ export type ToolItem = {
 };
 
 export type PathLine =
+  | { name: string; lineType: 'M'; x: number; y: number }
   | { name: string; lineType: 'L'; x: number; y: number }
   | { name: string; lineType: 'H'; x: number }
   | { name: string; lineType: 'V'; y: number }
@@ -33,4 +34,5 @@ export type PathLine =
       x: number;
       y: number;
     }
-  | { name: string; lineType: 'S'; x2: number; y2: number; x: number; y: number };
+  | { name: string; lineType: 'S'; x2: number; y2: number; x: number; y: number }
+  | { lineType: 'Z' };

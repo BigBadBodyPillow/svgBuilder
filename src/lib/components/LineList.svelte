@@ -4,6 +4,12 @@
 
   const lines: PathLine[] = [
     {
+      name: '',
+      lineType: 'M',
+      x: 0,
+      y: 0
+    },
+    {
       name: 'Top Line',
       lineType: 'L',
       x: 0,
@@ -25,6 +31,9 @@
       sweep: 1,
       x: 10,
       y: 10
+    },
+    {
+      lineType: 'Z'
     }
   ];
 </script>
