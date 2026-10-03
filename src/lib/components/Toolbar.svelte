@@ -1,6 +1,12 @@
 <script lang="ts">
-  import type { ToolItem } from '$lib/Types';
+  import type { PathLine, ToolItem } from '$lib/Types';
   import Tool from './Tool.svelte';
+
+  interface Props {
+    addLine: (lineType: PathLine['lineType']) => void;
+  }
+
+  let { addLine }: Props = $props();
 
   const tools: ToolItem[] = [
     {
@@ -75,28 +81,37 @@
 
   function selectTool(title: string) {
     isActiveTool = isActiveTool === title ? null : title;
+    addLine(title as PathLine['lineType']);
   }
 </script>
 
-<div class="toolbar">
-  {#each tools as tool (tool.title)}
-    <Tool {tool} active={tool.title === isActiveTool} onSelect={selectTool} />
-  {/each}
+<div class="container">
+  <div class="toolbar">
+    {#each tools as tool (tool.title)}
+      <Tool {tool} active={tool.title === isActiveTool} onSelect={selectTool} />
+    {/each}
+  </div>
 </div>
 
 <style>
+  .container {
+    width: 100%;
+    margin-inline: auto;
+    background-color: var(--background2);
+  }
+
   .toolbar {
     display: flex;
     align-items: center;
     /* gap: 1rem; */
 
     height: var(--toolbar-height);
+    width: 100%;
+    max-width: 1300px;
+    margin-inline: auto;
 
     padding: 0.75rem;
     padding-inline: 5rem;
-
-    background-color: var(--background2);
-    border: var(--border);
 
     isolation: isolate;
     anchor-name: --hovered-tool;
@@ -106,8 +121,9 @@
   .toolbar::after {
     content: '';
     position-anchor: --hovered-tool;
+
     position: absolute;
-    top: calc(anchor(top) - 10px);
+    top: calc(anchor(top));
     left: anchor(left);
     right: anchor(right);
     bottom: anchor(top);
@@ -135,7 +151,10 @@
   }
   .toolbar::after {
     z-index: -2;
-    background-image: linear-gradient(var(--accent), var(--accent));
+    background-image: linear-gradient(
+      transparent,
+      transparent
+    ); /* stops it for appearing when zooming*/
     background-attachment: fixed;
 
     @supports not (corner-shape: squircle) {
@@ -145,10 +164,15 @@
 
   .toolbar:has(:global(.tool):hover)::before,
   .toolbar:has(:global(.tool):hover)::after {
+    background-image: linear-gradient(var(--accent), var(--accent));
     top: anchor(top);
     left: anchor(left);
     right: anchor(right);
     bottom: anchor(bottom);
+
+    @supports not (corner-shape: squircle) {
+      border-radius: var(--radius);
+    }
 
     @supports (corner-shape: squircle) {
       corner-shape: squircle;

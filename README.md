@@ -26,3 +26,12 @@ not in the image but i thought of now and dont want to edit it
 - Hovering over stuff shows tooltops and information; for example hovering over Q Shows the parameters like x1 y1 x y
 
 Knowlage from my svg project and the paint app project
+
+## todo
+
+- [ ] add number indicators of the viewbox around the canvas
+- [x] Fix field editor moveing the canvas due to fields overlapping lines which changes its height
+- [ ] viewbox x and y positions
+- [ ] Icons (made with this tool)
+- [ ] custom inputs
+- [ ] numbers in line list from single digit to double digit

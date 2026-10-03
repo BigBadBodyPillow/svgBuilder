@@ -6,13 +6,25 @@ export type ToolItem = {
   description: string;
 };
 
+export type SvgSettings = {
+  width: number;
+  height: number;
+  viewBoxX: number;
+  viewBoxY: number;
+  viewBoxWidth: number;
+  viewBoxHeight: number;
+  stroke: string;
+  strokeWidth: number;
+  fill: string;
+};
+
 export type PathLine =
-  | { name: string; lineType: 'M'; x: number; y: number }
-  | { name: string; lineType: 'L'; x: number; y: number }
-  | { name: string; lineType: 'H'; x: number }
-  | { name: string; lineType: 'V'; y: number }
+  | { lineType: 'M'; x: number; y: number }
+  | { name?: string; lineType: 'L'; x: number; y: number }
+  | { name?: string; lineType: 'H'; x: number }
+  | { name?: string; lineType: 'V'; y: number }
   | {
-      name: string;
+      name?: string;
       lineType: 'A';
       rx: number;
       ry: number;
@@ -22,10 +34,10 @@ export type PathLine =
       x: number;
       y: number;
     }
-  | { name: string; lineType: 'Q'; x1: number; y1: number; x: number; y: number }
-  | { name: string; lineType: 'T'; x: number; y: number }
+  | { name?: string; lineType: 'Q'; x1: number; y1: number; x: number; y: number }
+  | { name?: string; lineType: 'T'; x: number; y: number }
   | {
-      name: string;
+      name?: string;
       lineType: 'C';
       x1: number;
       y1: number;
@@ -34,5 +46,5 @@ export type PathLine =
       x: number;
       y: number;
     }
-  | { name: string; lineType: 'S'; x2: number; y2: number; x: number; y: number }
+  | { name?: string; lineType: 'S'; x2: number; y2: number; x: number; y: number }
   | { lineType: 'Z' };

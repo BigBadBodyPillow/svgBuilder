@@ -4,170 +4,164 @@
   interface Props {
     index: number;
     line: PathLine;
+    isLast: boolean;
+    isSelected: boolean;
+    onSelectLine: (index: number) => void;
+    moveLine: (fromIndex: number, toIndex: number) => void;
   }
 
-  let { index, line }: Props = $props();
+  let { index, line, isLast, isSelected, onSelectLine, moveLine }: Props = $props();
+  let isDragging = $state(false);
 
-  const fields = $derived.by(() => {
+  const summary = $derived.by(() => {
     switch (line.lineType) {
       case 'M':
-        return [
-          { value: line.x, label: 'x' },
-          { value: line.y, label: 'y' }
-        ];
       case 'L':
-        return [
-          { value: line.x, label: 'x' },
-          { value: line.y, label: 'y' }
-        ];
-      case 'H':
-        return [{ value: line.x, label: 'x' }];
-      case 'V':
-        return [{ value: line.y, label: 'y' }];
-      case 'A':
-        return [
-          { value: line.rx, label: 'rx' },
-          { value: line.ry, label: 'ry' },
-          { value: line.xRotation, label: 'deg' },
-          { value: line.arc, label: undefined },
-          { value: line.sweep, label: undefined },
-          { value: line.x, label: 'x' },
-          { value: line.y, label: 'y' }
-        ];
-      case 'Q':
-        return [
-          { value: line.x1, label: 'x1' },
-          { value: line.y1, label: 'y1' },
-          { value: line.x, label: 'x' },
-          { value: line.y, label: 'y' }
-        ];
       case 'T':
-        return [
-          { value: line.x, label: 'x' },
-          { value: line.y, label: 'y' }
-        ];
+        return `${line.lineType} ${line.x} ${line.y}`;
+      case 'H':
+        return `H ${line.x}`;
+      case 'V':
+        return `V ${line.y}`;
+      case 'A':
+        return `A ${line.rx} ${line.ry} ${line.xRotation} ${line.arc} ${line.sweep} ${line.x} ${line.y}`;
+      case 'Q':
+        return `Q ${line.x1} ${line.y1} ${line.x} ${line.y}`;
       case 'C':
-        return [
-          { value: line.x1, label: 'x1' },
-          { value: line.y1, label: 'y1' },
-          { value: line.x2, label: 'x2' },
-          { value: line.y2, label: 'y2' },
-          { value: line.x, label: 'x' },
-          { value: line.y, label: 'y' }
-        ];
+        return `C ${line.x1} ${line.y1} ${line.x2} ${line.y2} ${line.x} ${line.y}`;
       case 'S':
-        return [
-          { value: line.x2, label: 'x2' },
-          { value: line.y2, label: 'y2' },
-          { value: line.x, label: 'x' },
-          { value: line.y, label: 'y' }
-        ];
+        return `S ${line.x2} ${line.y2} ${line.x} ${line.y}`;
       case 'Z':
-        return;
+        return 'Close path';
     }
   });
+
+  function dropLine(event: DragEvent) {
+    event.preventDefault();
+    const fromIndex = Number(event.dataTransfer?.getData('text/plain'));
+    if (Number.isInteger(fromIndex)) moveLine(fromIndex, index);
+    isDragging = false;
+  }
 </script>
 
-<li class="line-item">
+<li
+  class="line-item"
+  class:dragging={isDragging}
+  draggable="true"
+  ondragstart={(event) => {
+    isDragging = true;
+    event.dataTransfer?.setData('text/plain', String(index));
+    if (event.dataTransfer) event.dataTransfer.effectAllowed = 'move';
+  }}
+  ondragover={(event) => event.preventDefault()}
+  ondrop={dropLine}
+  ondragend={() => (isDragging = false)}
+>
   <span class="number">{index + 1}</span>
 
-  <div class="content-wrapper">
-    <div class="line">
-      <div class="line-type"><p>{line.lineType}</p></div>
+  <button
+    class="content-wrapper"
+    class:selected={isSelected}
+    type="button"
+    aria-pressed={isSelected}
+    aria-label="Select line {index + 1}: {summary}"
+    onclick={() => onSelectLine(index)}
+  >
+    <span class="command">
+      <span class="line-type">{line.lineType}</span>
 
-      {#each fields as field, fieldIndex (fieldIndex)}
-        <div class="field">
-          <p>{field.value}</p>
-          <span class="field-label">{field.label}</span>
-        </div>
-      {/each}
-    </div>
-
-    {#if 'name' in line}
-      <p class="name">{line.name}</p>
-    {/if}
-  </div>
+      <span class="command-values">
+        {line.lineType === 'Z' ? 'Close path' : summary.slice(1).trim()}
+      </span>
+    </span>
+  </button>
+  <span class="reorder-controls">
+    <button
+      type="button"
+      aria-label="Move line {index + 1} up"
+      disabled={index === 0}
+      onclick={() => moveLine(index, index - 1)}>↑</button
+    >
+    <button
+      type="button"
+      aria-label="Move line {index + 1} down"
+      disabled={isLast}
+      onclick={() => moveLine(index, index + 1)}>↓</button
+    >
+  </span>
 </li>
 
 <style>
   .line-item {
     display: flex;
-    justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 0.66rem;
+    font: var(--font-14) var(--font-roboto-mono);
+    cursor: grab;
+  }
+
+  .line-item.dragging {
+    opacity: 0.45;
+  }
+  .line-item:active {
+    cursor: grabbing;
   }
 
   .number {
     display: grid;
     place-items: center;
+    width: 2em;
+
+    font-size: var(--font-12);
+    font-variant-numeric: tabular-nums;
+    color: hsl(from var(--text) h s l / 0.45);
+  }
+
+  .line-type {
+    color: hsl(from var(--text) h s l / 0.5);
   }
 
   .content-wrapper {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
 
     width: 100%;
+    padding: 1rem 0.8rem;
 
-    padding: 0.5rem;
-    background-color: rgb(30, 30, 30);
-    border: 1px solid rgb(56, 56, 56);
+    text-align: left;
+
+    color: inherit;
+    background-color: hsl(from var(--background) h s calc(l + 6));
+    border: 1px solid hsl(from var(--background) h s calc(l + 18));
     border-radius: var(--radius);
 
-    font-size: var(--font-12);
-    font-family: var(--font-roboto-mono);
+    cursor: pointer;
   }
 
-  .line,
-  .name {
-    padding: 0.3rem;
-    height: 2lh;
-  }
-
-  .line {
+  .reorder-controls {
     display: flex;
-    gap: 10px;
-    align-items: center;
-    flex: 1;
-  }
-
-  .line-type {
-    color: hsl(from var(--text) h s l / 0.3);
-  }
-
-  .field {
-    display: flex;
+    flex-direction: column;
     gap: 2px;
-    align-items: end;
   }
 
-  span {
-    height: 100%;
-    font-size: var(--font-10);
-    opacity: 0.3;
-    user-select: none;
-  }
-
-  .name {
+  .reorder-controls button {
+    padding: 1px 5px;
+    border: 0;
     border-radius: var(--radius);
+    cursor: pointer;
+  }
 
-    width: fit-content;
-    max-width: 6.5em;
+  .reorder-controls button:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
 
-    color: hsl(from var(--text) h s l / 0.3);
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+  .content-wrapper:hover {
+    border-color: hsl(from var(--text) h s l / 0.2);
+  }
 
-    align-content: center;
-
-    &::before {
-      content: '| ';
-      color: hsl(from var(--text) h s l / 0.7);
-    }
-
-    /* hide if empty */
-    &:empty::before {
-      content: '';
-    }
+  .selected {
+    border-color: hsl(from var(--text) h s l / 0.3);
+    background-color: hsl(from var(--background) h s calc(l + 13));
   }
 </style>

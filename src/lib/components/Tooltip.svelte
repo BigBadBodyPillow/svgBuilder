@@ -57,7 +57,7 @@
 
     .name {
       font-size: var(--font-20);
-      margin-block: 1rem;
+      margin-bottom: 1rem;
       font-weight: 700;
     }
   }
