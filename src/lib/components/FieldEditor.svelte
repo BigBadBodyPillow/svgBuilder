@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { PathLine } from '../Types';
+  import Bin from '$lib/assets/Bin.svg?raw';
 
   interface Props {
     line: PathLine | undefined;
@@ -68,7 +69,10 @@
   {#if line}
     <div class="title">
       <span>Line {index + 1} {line.lineType}</span>
-      <button class="delete" type="button" onclick={() => onDeleteLine(index)}> Delete </button>
+      <button aria-label="delte" class="delete" type="button" onclick={() => onDeleteLine(index)}>
+        <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+        {@html Bin}
+      </button>
     </div>
   {/if}
 
@@ -114,6 +118,7 @@
     background: var(--background2);
     border: 1px solid var(--border);
     border-radius: var(--radius);
+    position: relative;
   }
 
   .title {
@@ -130,19 +135,30 @@
   }
 
   .delete {
-    margin-left: auto;
-    padding: 0.5rem 0.8rem;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: grid;
+    place-items: center;
 
-    background: hsl(from var(--accent) h s l / 0.06);
-    border: 1px solid hsl(from var(--accent) h s l / 0.55);
+    margin-left: auto;
+    padding: 1rem;
+
+    background: hsl(from var(--background2) h s calc(l + 6));
+    border: 1px solid hsl(from var(--border) h s calc(l + 6));
     border-radius: var(--radius);
     color: var(--accent);
     font-size: var(--font-10);
 
     cursor: pointer;
   }
+  .delete :global(svg) {
+    fill: var(--text);
+    width: var(--font-12);
+  }
 
   .delete:hover {
+    border-color: hsl(from var(--accent) h s l / 0.55);
     background: hsl(from var(--accent) h s l / 0.12);
   }
 

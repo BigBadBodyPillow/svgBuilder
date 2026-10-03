@@ -211,7 +211,7 @@
 
   button {
     font-family: var(--font-space-grotesk);
-    padding: 0.5rem 0.75rem;
+    padding: 0.5rem 2rem;
     background-color: var(--background2);
     border: 1px solid var(--border);
     border-radius: var(--radius);
