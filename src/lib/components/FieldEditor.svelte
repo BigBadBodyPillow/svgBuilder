@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { PathLine } from '../Types';
-  import Bin from '$lib/assets/Bin.svg?raw';
+  // import Bin from '$lib/assets/Bin.svg?raw';
+  import Bin from '$lib/assets/Bin2.svg?raw';
 
   interface Props {
     line: PathLine | undefined;
@@ -146,20 +147,38 @@
 
     background: hsl(from var(--background2) h s calc(l + 6));
     border: 1px solid hsl(from var(--border) h s calc(l + 6));
-    border-radius: var(--radius);
     color: var(--accent);
     font-size: var(--font-10);
-
     cursor: pointer;
+
+    @supports not (corner-shape: squircle) {
+      border-radius: var(--radius);
+    }
+
+    @supports (corner-shape: squircle) {
+      corner-shape: squircle;
+      border-radius: 50%;
+    }
+
+    transition: all 0.25s;
   }
   .delete :global(svg) {
     fill: var(--text);
+    stroke: var(--text);
     width: var(--font-12);
+
+    transition: all 0.25s;
   }
 
-  .delete:hover {
-    border-color: hsl(from var(--accent) h s l / 0.55);
-    background: hsl(from var(--accent) h s l / 0.12);
+  .delete:hover,
+  .delete:focus-visible {
+    border-color: hsl(from var(--accent) h s calc(l - 30));
+    background: hsl(from var(--accent) h calc(s - 40) calc(l - 45));
+  }
+  .delete:hover :global(svg),
+  .delete:focus-visible :global(svg) {
+    fill: var(--accent);
+    stroke: var(--accent);
   }
 
   .fields {

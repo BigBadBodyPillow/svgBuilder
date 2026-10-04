@@ -46,8 +46,6 @@
     border-radius: var(--radius);
 
     padding: 1.2rem 1.5rem;
-
-    z-index: 3;
   }
 
   .top-line {
@@ -83,7 +81,6 @@
     position: absolute;
     top: calc(100% + 0.5rem);
     left: 0;
-    z-index: 1;
 
     display: none;
     width: max-content;

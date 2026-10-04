@@ -95,6 +95,9 @@
 
 <style>
   .container {
+    position: relative;
+    z-index: 2;
+
     width: 100%;
     margin-inline: auto;
     background-color: var(--background2);
