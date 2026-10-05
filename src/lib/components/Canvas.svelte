@@ -2,6 +2,8 @@
   import type { PathLine, SvgSettings } from '../Types';
   import Dialog from './Dialog.svelte';
   import Ruler from './Ruler.svelte';
+  import Download from '$lib/assets/Download.svg?raw';
+  import Source from '$lib/assets/Source.svg?raw';
 
   interface Props {
     lines: PathLine[];
@@ -129,8 +131,16 @@
   </div>
 
   <div class="export-controls">
-    <button type="button" onclick={() => (codeDialogOpen = true)}>Source</button>
-    <button type="button" onclick={downloadSvg}>Download</button>
+    <button class="source" type="button" onclick={() => (codeDialogOpen = true)}>
+      <!--  eslint-disable-next-line svelte/no-at-html-tags -->
+      {@html Source}
+      <span>Source</span>
+    </button>
+    <button class="download" type="button" onclick={downloadSvg} aria-label="download">
+      <!--  eslint-disable-next-line svelte/no-at-html-tags -->
+      {@html Download}
+      <span> Download </span>
+    </button>
   </div>
 
   <Dialog bind:open={codeDialogOpen} {svgMarkup} />
@@ -210,8 +220,14 @@
   }
 
   button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
     font-family: var(--font-space-grotesk);
     padding: 0.5rem 2rem;
+    padding-left: 1.6rem; /* magic number to make look good*/
     background-color: var(--background2);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -224,6 +240,31 @@
   button:focus-visible {
     background-color: hsl(from var(--background2) h s calc(l + 6));
     border-color: hsl(from var(--border) h s calc(l + 10));
+  }
+
+  .export-controls :global(svg) {
+    width: var(--font-18);
+    height: var(--font-18);
+    fill: var(--text);
+
+    transition: all 0.25s;
+  }
+
+  .export-controls button:hover {
+    color: var(--accent);
+  }
+
+  .export-controls button:hover :global(svg) {
+    fill: var(--accent);
+  }
+
+  /* magic numbers to look pretty */
+  .download {
+    gap: 0.5rem;
+
+    :global(svg) {
+      transform: scale(0.7);
+    }
   }
 
   @media (max-width: 700px) {
